@@ -1,5 +1,5 @@
 
-const CACHE_VERSION = 'elbow-native-grade-v1';
+const CACHE_VERSION = 'cheese-native-grade-v1';
 const APP_SHELL = [
   './',
   './index.html',
@@ -30,7 +30,6 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
-  // Navigation: network first, cache fallback
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
@@ -44,7 +43,6 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Same-origin assets: cache first, then network and cache
   if (url.origin === location.origin) {
     event.respondWith(
       caches.match(event.request).then((cached) => {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>エルボ計算</title>
+    <title>チーズ管計算</title>
 <style>
         :root {
             --ios-bg: #000000;
@@ -11,8 +11,8 @@
             --ios-border: #333333;
             --ios-orange: #ff9f0a;
             --accent-90: #5e5ce6;
-            --accent-45: #30d158;
-            --accent-dist: #3b82f6;
+            --accent-cheese: #0a84ff;
+            --accent-dist: #30d158;
             --ios-silver: #c7c7cc;
             --ios-silver-dark: #9a9a9e;
             --label-gray: #b0b0b5;
@@ -78,6 +78,7 @@
             padding: 2px;
             border-radius: 10px;
             border: 1px solid #3a3a3c;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
         }
 
         .tab-button {
@@ -90,6 +91,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: 0.2s;
+            white-space: nowrap;
             border: 1.5px solid transparent;
         }
 
@@ -99,9 +101,9 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        .mode-90 #nav-90.active { border-color: var(--accent-90); }
-        .mode-45 #nav-45.active { border-color: var(--accent-45); }
-        .mode-dist #nav-dist.active { border-color: var(--accent-dist); }
+        .mode-90 #nav-90.active { border-color: var(--accent-90); color: #a2a0ff; }
+        .mode-cheese #nav-cheese.active { border-color: var(--accent-cheese); color: #82c0ff; }
+        .mode-dist #nav-dist.active { border-color: var(--accent-dist); color: #63ff8b; }
 
         /* スワイプコンテナ */
         #swipe-container {
@@ -135,7 +137,7 @@
         .result-box:active { transform: scale(0.98); }
 
         .mode-90 .result-box { background: var(--accent-90); }
-        .mode-45 .result-box { background: var(--accent-45); }
+        .mode-cheese .result-box { background: var(--accent-cheese); }
         .mode-dist .result-box { background: var(--accent-dist); }
 
         /* セルグリッド */
@@ -158,14 +160,16 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+            position: relative;
+            border: 0.5px solid var(--unfocused-border);
         }
 
         .full-width { grid-column: span 2; }
 
         .calc-cell.focused {
             background: #1c1c1e;
-            box-shadow: inset 0 0 0 1.5px var(--ios-orange);
+            box-shadow: inset 0 0 0 1.5px var(--ios-orange) !important;
+            border-color: var(--ios-orange);
             z-index: 10;
         }
 
@@ -204,6 +208,13 @@
             border: none;
             outline: none;
             direction: rtl;
+            width: 100%;
+        }
+
+        #cheese-size { 
+            font-size: 21px !important; 
+            text-align: center;
+            direction: ltr;
         }
 
         /* キーパッド */
@@ -279,6 +290,7 @@
 .text-zinc-500{color:#71717a}
 .text-zinc-600{color:#52525b}
 .text-zinc-800{color:#27272a}
+.text-orange-500{color:#f97316}
 .opacity-70{opacity:.7}
 .ml-1{margin-left:4px}
 .mb-0\.5{margin-bottom:2px}
@@ -288,6 +300,7 @@
 .text-\[15px\]{font-size:15px}
 .text-\[var\(--ios-silver\)\]{color:var(--ios-silver)}
 .w-\[36px\]{width:36px}
+
 html, body { overscroll-behavior: none; }
 body {
     padding-top: env(safe-area-inset-top);
@@ -353,7 +366,7 @@ body.standalone .tab-wrapper{
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="エルボ計算">
+<meta name="apple-mobile-web-app-title" content="チーズ管計算">
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
@@ -364,8 +377,8 @@ body.standalone .tab-wrapper{
 <body class="mode-90">
 
 <div id="boot-splash" aria-hidden="true">
-  <div id="boot-logo">E</div>
-  <div id="boot-title">エルボ計算</div>
+  <div id="boot-logo">C</div>
+  <div id="boot-title">チーズ管計算</div>
 </div>
 
 <button id="installBtn">アプリをインストール</button>
@@ -381,20 +394,20 @@ body.standalone .tab-wrapper{
     <div id="swipe-container">
         <div class="main-container">
             <div class="app-header">
-                <span class="title">エルボ計算</span>
+                <span class="title">チーズ管計算</span>
                 <span class="subtitle">KYOWA ROOF</span>
             </div>
 
             <div class="tab-wrapper">
                 <div class="tab-container">
                     <button class="tab-button active" id="nav-90" onclick="switchTab('90')">90°エルボ</button>
-                    <button class="tab-button" id="nav-45" onclick="switchTab('45')">45°エルボ</button>
+                    <button class="tab-button" id="nav-cheese" onclick="switchTab('cheese')">変形チーズ管</button>
                     <button class="tab-button" id="nav-dist" onclick="switchTab('dist')">距離計算</button>
                 </div>
             </div>
 
-            <!-- エルボモード -->
-            <div id="section-elbow">
+            <!-- 90°エルボ -->
+            <div id="section-90">
                 <div class="result-box" onclick="copyResult('elbow-result-val')">
                     <div class="result-label-left">切寸法</div>
                     <div class="result-value">
@@ -423,7 +436,36 @@ body.standalone .tab-wrapper{
                 </div>
             </div>
 
-            <!-- 距離計算モード -->
+            <!-- 変形チーズ管 -->
+            <div id="section-cheese" class="hidden">
+                <div class="result-box" onclick="copyResult('cheese-result-val')">
+                    <div class="result-label-left">切寸法</div>
+                    <div class="result-value">
+                        <span id="cheese-result-val">---</span>
+                        <span class="text-xs font-bold opacity-70 ml-1">mm</span>
+                    </div>
+                </div>
+
+                <div class="cell-grid">
+                    <div class="calc-cell">
+                        <select id="cheese-size" class="input-value" onchange="cheeseCalc()">
+                            <option value="10075" selected>100×75</option>
+                            <option value="12575">125×75</option>
+                            <option value="125100">125×100</option>
+                        </select>
+                    </div>
+                    <div class="calc-cell" style="background: #0d0d0f;">
+                        <span class="input-label-left">重寸法</span>
+                        <span class="input-value text-zinc-600" id="cheese-c6-val">--</span>
+                    </div>
+                    <div class="calc-cell full-width" id="cell-cheese-input" onclick="focusInput('cheese-input')">
+                        <span class="input-label-left">芯-芯寸法</span>
+                        <div id="cheese-input" class="input-value">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 距離計算 -->
             <div id="section-dist" class="hidden">
                 <div class="result-box" onclick="copyResult('dist-result-val')">
                     <div class="result-label-left">芯-芯寸法</div>
@@ -440,10 +482,10 @@ body.standalone .tab-wrapper{
                     </div>
                     <div class="calc-cell">
                         <span class="input-label-left">サイズ</span>
-                        <select id="dist-select-size" class="input-value" onchange="syncAndCalc(this.value)">
-                            <option value="75">75</option>
-                            <option value="100" selected>100</option>
-                            <option value="125">125</option>
+                        <select id="dist-select-x" class="input-value" onchange="syncAndCalc(this.options[this.selectedIndex].text)">
+                            <option value="45">75</option>
+                            <option value="57" selected>100</option>
+                            <option value="70">125</option>
                         </select>
                     </div>
                     <div class="calc-cell" id="cell-dist-h" onclick="focusInput('dist-input-h')">
@@ -508,7 +550,7 @@ body.standalone .tab-wrapper{
                     <span>履歴</span>
                     <button onclick="clearHistory()" class="text-red-500">削除</button>
                 </div>
-                <div id="history-list"></div>
+                <div id="main-history-list"></div>
             </div>
 
             <div class="padding-bottom"></div>
@@ -519,39 +561,52 @@ body.standalone .tab-wrapper{
     let currentTab = '90';
     let focusedInputId = 'elbow-input-90';
     let isOverwriteMode = true;
-    const storageKey = 'kyowa_calc_v41';
-    const lastTabKey = 'kyowa_last_tab';
+    const storageKey = 'kyowa_unified_calc_v41';
+    const lastTabKey = 'kyowa_last_tab_unified';
     
     const inputs = {
-        'elbow-input-90': '', 'elbow-input-45': '',
-        'dist-input-b': '', 'dist-input-h': '', 'dist-input-a': ''
+        'elbow-input-90': '',
+        'cheese-input': '',
+        'dist-input-b': '',
+        'dist-input-h': '',
+        'dist-input-a': ''
     };
 
     let histories = JSON.parse(localStorage.getItem(storageKey)) || [];
 
-    const elbowData = {
-        "90": { 75: { d: 30, e: 88 }, 100: { d: 40, e: 112 }, 125: { d: 50, e: 140 } },
-        "45": { 75: { d: 30, e: 65 }, 100: { d: 40, e: 80 }, 125: { d: 50, e: 103 } }
-    };
-
-    const distXData = { 75: 45, 100: 57, 125: 70 };
+    const elbowData = { 75: { d: 30, e: 88 }, 100: { d: 40, e: 112 }, 125: { d: 50, e: 140 } };
+    const cheeseData = { "10075": { c2: 130, c6: 30 }, "12575": { c2: 144, c6: 30 }, "125100": { c2: 157, c6: 40 } };
+    const distXData = { "75": 45, "100": 57, "125": 70 };
 
     function syncAndCalc(val) {
+        // サイズの同期 (Elbow / Dist のみ連動させる)
         document.getElementById('elbow-size').value = val;
-        document.getElementById('dist-select-size').value = val;
-        distCalc();
+        const distSelect = document.getElementById('dist-select-x');
+        for(let i=0; i<distSelect.options.length; i++) {
+            if(distSelect.options[i].text === val) {
+                distSelect.selectedIndex = i;
+                break;
+            }
+        }
+        
         elbowCalc();
+        distCalc();
+        // cheeseCalc()は値の変更があれば呼ぶが、サイズは独立
+        cheeseCalc();
     }
 
     function focusInput(id) {
-        const internalId = (id === 'elbow-input') ? `elbow-input-${currentTab}` : id;
+        let internalId = id;
+        if (id === 'elbow-input') internalId = 'elbow-input-90';
+        
         document.querySelectorAll('.calc-cell').forEach(el => el.classList.remove('focused'));
         
-        let targetId = id;
-        if (id === 'elbow-input') targetId = 'cell-elbow-input';
-        else targetId = `cell-${id.replace('input-', '')}`;
+        let cellTargetId = id;
+        if (id === 'elbow-input') cellTargetId = 'cell-elbow-input';
+        else if (id === 'cheese-input') cellTargetId = 'cell-cheese-input';
+        else cellTargetId = `cell-${id.replace('input-', '')}`;
         
-        const target = document.getElementById(targetId);
+        const target = document.getElementById(cellTargetId);
         if (target) target.classList.add('focused');
         
         focusedInputId = internalId;
@@ -560,17 +615,17 @@ body.standalone .tab-wrapper{
 
     async function pressKey(key) {
         let val = inputs[focusedInputId] || '';
-        
+
         if (key === 'clear') {
             if (currentTab === 'dist') {
-                clearDistInputs();
+                clearDistFields(); 
                 return;
             }
             val = '';
             isOverwriteMode = false;
         } else if (key === 'backspace') {
             if (currentTab === 'dist') {
-                val = '';
+                val = ''; 
             } else {
                 try {
                     const text = await navigator.clipboard.readText();
@@ -580,7 +635,7 @@ body.standalone .tab-wrapper{
                         isOverwriteMode = false;
                         showToast("貼り付けました");
                     } else {
-                        showToast("有効な数値がありません");
+                        showToast("数値が見つかりません");
                         return;
                     }
                 } catch (err) {
@@ -590,33 +645,26 @@ body.standalone .tab-wrapper{
             }
             isOverwriteMode = false;
         } else if (key === 'enter') {
-            handleEnter();
-            return;
+            handleEnter(); return;
         } else if (key === '.') {
-            if (isOverwriteMode) { 
-                val = '0.'; 
-                isOverwriteMode = false; 
-            } else if (!val.toString().includes('.')) {
-                val += val === '' ? '0.' : '.';
-            }
+            if (isOverwriteMode) { val = '0.'; isOverwriteMode = false; }
+            else if (!val.toString().includes('.')) val += val === '' ? '0.' : '.';
         } else {
             if (isOverwriteMode) { val = key; isOverwriteMode = false; }
             else { val = (val === '0') ? key : val + key; }
         }
         
         inputs[focusedInputId] = val;
-        const displayId = focusedInputId.startsWith('elbow-input') ? 'elbow-input' : focusedInputId;
+        const displayId = focusedInputId.startsWith('elbow-input') ? 'elbow-input' : (focusedInputId.startsWith('cheese-input') ? 'cheese-input' : focusedInputId);
         updateDisplay(displayId, val);
         
         if (currentTab === 'dist') distCalc();
+        else if (currentTab === 'cheese') cheeseCalc();
         else elbowCalc();
     }
 
-    function clearDistInputs() {
-        ['dist-input-b', 'dist-input-h', 'dist-input-a'].forEach(id => {
-            inputs[id] = '';
-            updateDisplay(id, '');
-        });
+    function clearDistFields() {
+        ['dist-input-b', 'dist-input-h', 'dist-input-a'].forEach(id => { inputs[id] = ''; updateDisplay(id, ''); });
         distCalc();
         isOverwriteMode = true;
         showToast("すべてクリアしました");
@@ -645,34 +693,37 @@ body.standalone .tab-wrapper{
         return parts.join(".");
     }
 
-    function switchTab(tabId, isAutoLoad = false) {
+    function switchTab(tabId) {
         currentTab = tabId;
         localStorage.setItem(lastTabKey, tabId);
-
+        
         document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
         document.getElementById(`nav-${tabId}`).classList.add('active');
-        document.body.className = `mode-${tabId}`;
-
-        const isDist = tabId === 'dist';
-        document.getElementById('section-elbow').classList.toggle('hidden', isDist);
-        document.getElementById('section-dist').classList.toggle('hidden', !isDist);
-        document.getElementById('dist-diagram-wrapper').classList.toggle('hidden', !isDist);
-        document.getElementById('history-area').classList.toggle('hidden', isDist);
         
-        const enterBtn = document.getElementById('enter-btn-label');
-        const delBtn = document.getElementById('delete-btn-label');
+        document.body.className = `mode-${tabId}` + (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true ? ' standalone' : '');
 
-        if (isDist) {
-            enterBtn.innerText = '⏎';
-            delBtn.innerText = 'C';
+
+        ['section-90', 'section-cheese', 'section-dist'].forEach(s => document.getElementById(s).classList.add('hidden'));
+        document.getElementById(`section-${tabId === 'cheese' ? 'cheese' : (tabId === '90' ? '90' : 'dist')}`).classList.remove('hidden');
+        document.getElementById('dist-diagram-wrapper').classList.toggle('hidden', tabId !== 'dist');
+        document.getElementById('history-area').classList.toggle('hidden', tabId === 'dist');
+        
+        const enterLabel = document.getElementById('enter-btn-label');
+        const deleteBtn = document.getElementById('delete-btn-label');
+
+        if (tabId === 'dist') {
+            enterLabel.innerText = '⏎';
+            deleteBtn.innerText = 'C'; 
             focusInput('dist-input-h');
             distCalc();
         } else {
-            enterBtn.innerText = '保存';
-            delBtn.innerText = '貼付';
-            updateDisplay('elbow-input', inputs[`elbow-input-${tabId}`]);
-            focusInput('elbow-input');
-            elbowCalc();
+            enterLabel.innerText = '保存';
+            deleteBtn.innerText = '貼付'; 
+            const displayId = tabId === '90' ? 'elbow-input' : 'cheese-input';
+            const internalId = tabId === '90' ? 'elbow-input-90' : 'cheese-input';
+            updateDisplay(displayId, inputs[internalId]);
+            focusInput(displayId);
+            tabId === '90' ? elbowCalc() : cheeseCalc();
             renderHistory();
         }
     }
@@ -682,7 +733,7 @@ body.standalone .tab-wrapper{
     swipeArea.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive: true});
     swipeArea.addEventListener('touchend', e => {
         const diff = e.changedTouches[0].clientX - startX;
-        const tabs = ['90', '45', 'dist'];
+        const tabs = ['90', 'cheese', 'dist'];
         const idx = tabs.indexOf(currentTab);
         if (diff > 80 && idx > 0) switchTab(tabs[idx - 1]);
         else if (diff < -80 && idx < 2) switchTab(tabs[idx + 1]);
@@ -690,20 +741,23 @@ body.standalone .tab-wrapper{
 
     function elbowCalc() {
         const size = document.getElementById('elbow-size').value;
-        const data = elbowData[currentTab] ? elbowData[currentTab][size] : elbowData["90"][size];
-        if (!data) return;
-        const { d, e } = data;
+        const { d, e } = elbowData[size];
         document.getElementById('elbow-d-val').innerText = d;
-        const c = parseFloat(inputs[`elbow-input-${currentTab}`]);
+        const c = parseFloat(inputs['elbow-input-90']);
         const resEl = document.getElementById('elbow-result-val');
-        if (isNaN(c) || c === 0) { resEl.innerText = "---"; return; }
-        
-        let res = 0;
-        if (currentTab === "45") {
-             res = Math.ceil((c / Math.cos(45 * Math.PI / 180)) - ((e - d) * 2));
-        } else {
-             res = Math.round((c - ((e * 2) - (d * 2))) * 10) / 10;
-        }
+        if (!c) { resEl.innerText = "---"; return; }
+        let res = Math.round((c - ((e * 2) - (d * 2))) * 10) / 10;
+        resEl.innerText = formatNum(res);
+    }
+
+    function cheeseCalc() {
+        const size = document.getElementById('cheese-size').value;
+        const { c2, c6 } = cheeseData[size];
+        document.getElementById('cheese-c6-val').innerText = c6;
+        const c = parseFloat(inputs['cheese-input']);
+        const resEl = document.getElementById('cheese-result-val');
+        if (!c) { resEl.innerText = "---"; return; }
+        let res = Math.round((c - c2) * 10) / 10;
         resEl.innerText = formatNum(res);
     }
 
@@ -711,52 +765,47 @@ body.standalone .tab-wrapper{
         const b = parseFloat(inputs['dist-input-b']) || 0;
         const h = parseFloat(inputs['dist-input-h']);
         const a = parseFloat(inputs['dist-input-a']);
-        const size = document.getElementById('dist-select-size').value;
-        const x = distXData[size];
+        const distSel = document.getElementById('dist-select-x');
+        const sizeLabel = distSel.options[distSel.selectedIndex].text;
+        const x = distXData[sizeLabel] || parseFloat(distSel.value);
         
         const resEl = document.getElementById('dist-result-val');
         const diagRes = document.getElementById('dist-diagram-result');
+        if (isNaN(h) || isNaN(a)) { resEl.innerText = "---"; diagRes.textContent = "---"; return; }
         
-        if (isNaN(h) || isNaN(a)) { 
-            resEl.innerText = "---"; 
-            diagRes.textContent = "---"; 
-            return; 
-        }
-
         const resultValueNum = Math.ceil(Math.sqrt(Math.pow(h - (b + x), 2) + Math.pow(a, 2)));
         const resFormatted = formatNum(resultValueNum);
         
         resEl.innerText = resFormatted;
         diagRes.textContent = resFormatted;
 
+        // 【連動機能】他の計算入力欄（数値のみ）に結果を反映
         inputs['elbow-input-90'] = resultValueNum.toString();
-        inputs['elbow-input-45'] = resultValueNum.toString();
+        inputs['cheese-input'] = resultValueNum.toString();
         
-        if (currentTab === 'dist') {
-            elbowCalc(); 
-        }
+        // バックグラウンドで再計算 (サイズはそれぞれの画面の現在の選択を使用)
+        elbowCalc();
+        cheeseCalc();
     }
 
     function saveHistory() {
-        const size = document.getElementById('elbow-size').value;
-        const inputStr = formatNum(inputs[`elbow-input-${currentTab}`]);
-        const result = document.getElementById('elbow-result-val').innerText;
-        if (result === "---" || !inputs[`elbow-input-${currentTab}`]) return;
+        const type = currentTab === '90' ? '90' : 'cheese';
+        const inputKey = type === '90' ? 'elbow-input-90' : 'cheese-input';
+        const sizeEl = document.getElementById(type === '90' ? 'elbow-size' : 'cheese-size');
+        const sizeStr = sizeEl.options[sizeEl.selectedIndex].text;
+        const result = document.getElementById(type === '90' ? 'elbow-result-val' : 'cheese-result-val').innerText;
         
-        histories.push({ id: Date.now(), mode: currentTab, size, input: inputStr, result, locked: false });
-        if (histories.filter(h => !h.locked).length > 10) {
+        if (result === "---" || !inputs[inputKey]) return;
+
+        histories.push({ id: Date.now(), mode: currentTab, size: sizeStr, input: formatNum(inputs[inputKey]), result, locked: false });
+        if (histories.filter(h => !h.locked).length > 12) {
             const idx = histories.findIndex(h => !h.locked);
             histories.splice(idx, 1);
         }
         localStorage.setItem(storageKey, JSON.stringify(histories));
+        
         renderHistory();
-        
-        // 【修正】入力欄の数値をクリアせずにそのまま残す
-        // inputs[`elbow-input-${currentTab}`] = ''; 
-        // updateDisplay('elbow-input', '');
-        
         showToast("保存しました");
-        // 次のキー入力で上書きされるようモード設定
         isOverwriteMode = true;
     }
 
@@ -773,10 +822,11 @@ body.standalone .tab-wrapper{
     }
 
     function renderHistory() {
-        const list = document.getElementById('history-list');
+        if (currentTab === 'dist') return;
+        const list = document.getElementById('main-history-list');
         list.innerHTML = "";
         const filtered = histories.filter(h => h.mode === currentTab).reverse();
-        if (filtered.length === 0) { list.innerHTML = '<div class="text-center py-8 text-zinc-800 text-xs font-bold">履歴なし</div>'; return; }
+        if (!filtered.length) { list.innerHTML = '<div class="text-center py-8 text-zinc-800 text-xs font-bold">履歴なし</div>'; return; }
         filtered.forEach(h => {
             const div = document.createElement('div');
             div.className = `history-item ${h.locked ? 'is-locked' : ''}`;
@@ -785,7 +835,7 @@ body.standalone .tab-wrapper{
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 </button>
                 <div class="flex-1">
-                    <div class="text-[15px] font-bold text-[var(--ios-silver)] mb-0.5">${h.size}サイズ / 芯-芯:${h.input}</div>
+                    <div class="text-[15px] font-bold text-[var(--ios-silver)] mb-0.5">${h.size} / 芯-芯:${h.input}</div>
                     <div class="text-xl font-bold">${h.result}</div>
                 </div>
                 ${!h.locked ? `
@@ -805,14 +855,12 @@ body.standalone .tab-wrapper{
         histories = histories.filter(h => h.locked || h.mode !== currentTab);
         localStorage.setItem(storageKey, JSON.stringify(histories));
         renderHistory();
+        showToast("履歴を削除しました");
     }
 
-    function copyResult(id) { 
-        const val = document.getElementById(id).innerText;
-        copyRaw(val);
-    }
+    function copyResult(id) { copyRaw(document.getElementById(id).innerText); }
     function copyRaw(val) {
-        if (val === "---") return;
+        if (val === "---" || val === "エラー") return;
         const t = document.createElement('textarea');
         t.value = val.replace(/,/g, '');
         document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t);
@@ -825,12 +873,13 @@ body.standalone .tab-wrapper{
         setTimeout(() => t.classList.remove('show'), 1000);
     }
 
-    window.onload = () => {
+    window.onload = () => { 
         const lastTab = localStorage.getItem(lastTabKey);
-        if (lastTab && (lastTab === '90' || lastTab === '45' || lastTab === 'dist')) {
-            switchTab(lastTab, true);
+        if (lastTab && (lastTab === '90' || lastTab === 'cheese' || lastTab === 'dist')) {
+            switchTab(lastTab);
         } else {
-            elbowCalc();
+            focusInput('elbow-input'); 
+            elbowCalc(); 
             renderHistory();
         }
     };
@@ -839,7 +888,10 @@ body.standalone .tab-wrapper{
 <script>
 (function () {
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  if (isStandalone) document.body.classList.add('standalone');
+
+  function syncStandaloneClass() {
+    document.body.className = `mode-${currentTab}` + (isStandalone ? ' standalone' : '');
+  }
 
   window.addEventListener('load', () => {
     const splash = document.getElementById('boot-splash');
@@ -883,13 +935,19 @@ body.standalone .tab-wrapper{
   }
 
   if (isIOS && !isStandalone) {
-    // Show install button on iOS too, but route to instruction panel
     installBtn.style.display = 'block';
   }
 
   window.addEventListener('appinstalled', () => {
     installBtn.style.display = 'none';
   });
+
+  window.addEventListener('load', syncStandaloneClass);
+  const originalSwitchTab = window.switchTab;
+  window.switchTab = function(tabId){
+    originalSwitchTab(tabId);
+    syncStandaloneClass();
+  };
 })();
 </script>
 
