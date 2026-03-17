@@ -3,20 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <!-- Android全画面表示用の設定 -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#000000">
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- iOS用の設定 -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="エルボ計算">
-
     <title>エルボ計算</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
+<style>
         :root {
             --ios-bg: #000000;
             --ios-card: #1c1c1e;
@@ -48,6 +36,7 @@
             overflow-x: hidden;
         }
 
+        /* ヘッダーエリア */
         .app-header {
             padding: 16px 12px 6px;
             display: flex;
@@ -68,6 +57,7 @@
             font-weight: 600;
         }
 
+        /* タブ (固定表示) */
         .tab-wrapper {
             position: sticky;
             top: 0;
@@ -113,6 +103,7 @@
         .mode-45 #nav-45.active { border-color: var(--accent-45); }
         .mode-dist #nav-dist.active { border-color: var(--accent-dist); }
 
+        /* スワイプコンテナ */
         #swipe-container {
             flex: 1;
             width: 100%;
@@ -129,6 +120,7 @@
             flex-direction: column;
         }
 
+        /* 計算結果枠 */
         .result-box {
             height: 64px;
             padding: 0 16px;
@@ -146,6 +138,7 @@
         .mode-45 .result-box { background: var(--accent-45); }
         .mode-dist .result-box { background: var(--accent-dist); }
 
+        /* セルグリッド */
         .cell-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -213,6 +206,7 @@
             direction: rtl;
         }
 
+        /* キーパッド */
         .keypad-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -238,6 +232,7 @@
         .key-btn.orange { background: var(--ios-orange); font-weight: 700; }
         .key-btn.gray { background: #2c2c2e; color: var(--label-gray); font-size: 18px; font-weight: 600; }
 
+        /* 履歴・図面 */
         .history-area { padding: 12px; background: #000; }
         .history-header {
             font-size: 15px;
@@ -270,9 +265,116 @@
         .padding-bottom {
             padding-bottom: 40px;
         }
-    </style>
+    
+/* Local utility classes replacing Tailwind dependency */
+.w-full{width:100%}
+.h-auto{height:auto}
+.h-full{height:100%}
+.flex-1{flex:1 1 0%}
+.font-bold{font-weight:700}
+.text-xs{font-size:12px}
+.text-xl{font-size:20px}
+.text-center{text-align:center}
+.text-red-500{color:#ef4444}
+.text-zinc-500{color:#71717a}
+.text-zinc-600{color:#52525b}
+.text-zinc-800{color:#27272a}
+.opacity-70{opacity:.7}
+.ml-1{margin-left:4px}
+.mb-0\.5{margin-bottom:2px}
+.p-2{padding:8px}
+.py-8{padding-top:32px;padding-bottom:32px}
+.row-span-2{grid-row:span 2 / span 2}
+.text-\[15px\]{font-size:15px}
+.text-\[var\(--ios-silver\)\]{color:var(--ios-silver)}
+.w-\[36px\]{width:36px}
+html, body { overscroll-behavior: none; }
+body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+body.standalone .tab-wrapper{
+    top: env(safe-area-inset-top);
+}
+#installBtn, #iosInstallTip {
+    position: fixed;
+    right: 16px;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 9999;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 18px;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 10px 24px rgba(0,0,0,.45);
+}
+#installBtn { background:#2563eb; display:none; }
+#iosInstallTip {
+    left: 16px;
+    right: 16px;
+    display:none;
+    background: rgba(28,28,30,.96);
+    border: 1px solid rgba(255,255,255,.1);
+    text-align:left;
+    line-height:1.45;
+}
+#iosInstallTip button{
+    margin-top:10px;
+    background:#2c2c2e;
+    color:#fff;
+    border:none;
+    padding:8px 12px;
+    border-radius:10px;
+}
+#boot-splash{
+    position:fixed;
+    inset:0;
+    background:#000;
+    z-index:10000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    transition:opacity .28s ease;
+}
+#boot-splash.hide{opacity:0;pointer-events:none}
+#boot-logo{
+    width:96px;height:96px;border:4px solid #fff;border-radius:28px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:42px;font-weight:700;margin-bottom:14px;
+}
+#boot-title{font-size:18px;font-weight:700;letter-spacing:.2px}
+
+</style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="エルボ計算">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-startup-image" href="splash-1170x2532.png">
+<meta name="format-detection" content="telephone=no">
+
 </head>
 <body class="mode-90">
+
+<div id="boot-splash" aria-hidden="true">
+  <div id="boot-logo">E</div>
+  <div id="boot-title">エルボ計算</div>
+</div>
+
+<button id="installBtn">アプリをインストール</button>
+
+<div id="iosInstallTip">
+  <div>iPhone / iPad はこのボタンではインストールできません。Safariの共有から「ホーム画面に追加」を使ってください。</div>
+  <button type="button" id="closeIosTip">閉じる</button>
+</div>
+
 
     <div id="toast">コピーしました</div>
 
@@ -649,7 +751,12 @@
         localStorage.setItem(storageKey, JSON.stringify(histories));
         renderHistory();
         
+        // 【修正】入力欄の数値をクリアせずにそのまま残す
+        // inputs[`elbow-input-${currentTab}`] = ''; 
+        // updateDisplay('elbow-input', '');
+        
         showToast("保存しました");
+        // 次のキー入力で上書きされるようモード設定
         isOverwriteMode = true;
     }
 
@@ -728,5 +835,63 @@
         }
     };
 </script>
+
+<script>
+(function () {
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if (isStandalone) document.body.classList.add('standalone');
+
+  window.addEventListener('load', () => {
+    const splash = document.getElementById('boot-splash');
+    setTimeout(() => splash && splash.classList.add('hide'), 180);
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js');
+    });
+  }
+
+  const installBtn = document.getElementById('installBtn');
+  const iosTip = document.getElementById('iosInstallTip');
+  const closeIosTip = document.getElementById('closeIosTip');
+  const ua = window.navigator.userAgent || '';
+  const isIOS = /iPhone|iPad|iPod/i.test(ua);
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (!isStandalone) installBtn.style.display = 'block';
+  });
+
+  installBtn.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      try { await deferredPrompt.userChoice; } catch(e) {}
+      deferredPrompt = null;
+      installBtn.style.display = 'none';
+      return;
+    }
+    if (isIOS && !isStandalone) {
+      iosTip.style.display = 'block';
+    }
+  });
+
+  if (closeIosTip) {
+    closeIosTip.addEventListener('click', () => iosTip.style.display = 'none');
+  }
+
+  if (isIOS && !isStandalone) {
+    // Show install button on iOS too, but route to instruction panel
+    installBtn.style.display = 'block';
+  }
+
+  window.addEventListener('appinstalled', () => {
+    installBtn.style.display = 'none';
+  });
+})();
+</script>
+
 </body>
 </html>
