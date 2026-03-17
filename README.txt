@@ -1,23 +1,17 @@
-# チーズ管計算 PWA
+# エルボ計算 Android全画面優先版
 
-GitHub Pages にそのまま置ける構成です。
+目的:
+- Androidでホーム画面から全画面起動
+- 元デザインを維持
+- GitHub Pagesにそのまま配置可能
 
-## 配置するファイル
-- index.html
-- manifest.json
-- sw.js
-- icon-180.png
-- icon-192.png
-- icon-512.png
-- icon-1024.png
-- splash-1170x2532.png
-
-## 公開手順
-1. GitHub で新規リポジトリを作成
-2. このファイル一式を root にアップロード
+手順:
+1. ZIPを解凍
+2. 中身をGitHubリポジトリ直下にアップロード
 3. Settings > Pages > Deploy from branch > main / root
-4. 公開URLを開く
+4. 公開URLをAndroid Chromeで開く
+5. 「アプリをインストール」またはChromeのメニューからインストール
 
-## インストール
-- Android: 画面右下の「アプリをインストール」
-- iPhone/iPad: Safari の共有 > ホーム画面に追加
+注意:
+- 旧 service worker が残っていると反映が遅れます
+- 表示が変わらない場合はサイトデータ削除後に再読込してください

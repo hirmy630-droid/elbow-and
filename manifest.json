@@ -1,7 +1,6 @@
 {
-  "name": "チーズ管計算",
-  "short_name": "チーズ管",
-  "description": "チーズ管計算の現場用アプリ",
+  "name": "エルボ計算",
+  "short_name": "エルボ",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
