@@ -296,7 +296,7 @@ body{
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="エルボ">
+<meta name="apple-mobile-web-app-title" content="エルボ計算">
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
@@ -305,16 +305,6 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
 }
 </script>
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="エルボ計算">
-<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 
 </head>
 <body class="mode-90">
@@ -816,41 +806,6 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 
-
-<button id="installBtn" aria-label="このアプリをインストール">アプリをインストール</button>
-<script>
-(function() {
-  let deferredPrompt = null;
-  const btn = document.getElementById('installBtn');
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('./sw.js');
-    });
-  }
-
-  window.addEventListener('beforeinstallprompt', function(e) {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (!isStandalone) btn.style.display = 'block';
-  });
-
-  btn.addEventListener('click', async function() {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    try {
-      await deferredPrompt.userChoice;
-    } catch (e) {}
-    deferredPrompt = null;
-    btn.style.display = 'none';
-  });
-
-  window.addEventListener('appinstalled', function() {
-    btn.style.display = 'none';
-  });
-})();
-</script>
 
 </body>
 </html>
