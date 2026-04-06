@@ -210,13 +210,17 @@
         /* キーパッド */
         .keypad-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 1px;
             background: var(--ios-border);
             margin: 0 12px 12px;
             border-radius: 0 0 16px 16px;
             overflow: hidden;
             border: 1px solid var(--ios-border);
+        }
+
+        .keypad-container.dist-keypad {
+            grid-template-columns: repeat(4, 1fr);
         }
 
         .key-btn {
@@ -231,7 +235,17 @@
         }
         .key-btn:active { background: #333; }
         .key-btn.orange { background: var(--ios-orange); font-weight: 700; }
-        .key-btn.gray { background: #2c2c2e; color: var(--label-gray); font-size: 18px; font-weight: 600; }
+        .key-btn.gray { background: #4a4a4d; color: #f2f2f7; font-size: 18px; font-weight: 700; }
+
+
+        #elbow-keypad-wrap .key-btn {
+            height: 58px;
+        }
+
+        #elbow-save-wrap .key-btn {
+            height: 56px;
+            font-size: 22px;
+        }
 
         /* 履歴・図面 */
         .history-area { padding: 12px; background: #000; }
@@ -390,29 +404,57 @@ if ('serviceWorker' in navigator) {
                 </div>
             </div>
 
-            <!-- キーパッド -->
-            <div class="keypad-container">
-                <button class="key-btn" onclick="pressKey('7')">7</button>
-                <button class="key-btn" onclick="pressKey('8')">8</button>
-                <button class="key-btn" onclick="pressKey('9')">9</button>
-                <button class="key-btn gray" id="delete-btn-label" onclick="pressKey('backspace')">貼付</button>
-                
-                <button class="key-btn" onclick="pressKey('4')">4</button>
-                <button class="key-btn" onclick="pressKey('5')">5</button>
-                <button class="key-btn" onclick="pressKey('6')">6</button>
-                <button class="key-btn gray" onclick="pressKey('clear')">AC</button>
-                
-                <button class="key-btn" onclick="pressKey('1')">1</button>
-                <button class="key-btn" onclick="pressKey('2')">2</button>
-                <button class="key-btn" onclick="pressKey('3')">3</button>
-                <button class="key-btn orange row-span-2 h-full" id="enter-btn-label" onclick="pressKey('enter')">保存</button>
-                
-                <button class="key-btn" onclick="pressKey('0')">0</button>
-                <button class="key-btn" onclick="pressKey('00')">00</button>
-                <button class="key-btn" id="dot-btn" onclick="pressKey('.')">.</button>
+            <!-- エルボ用キーパッド -->
+            <div id="elbow-keypad-wrap">
+                <div class="keypad-container">
+                    <button class="key-btn" onclick="pressKey('7')">7</button>
+                    <button class="key-btn" onclick="pressKey('8')">8</button>
+                    <button class="key-btn" onclick="pressKey('9')">9</button>
+
+                    <button class="key-btn" onclick="pressKey('4')">4</button>
+                    <button class="key-btn" onclick="pressKey('5')">5</button>
+                    <button class="key-btn" onclick="pressKey('6')">6</button>
+
+                    <button class="key-btn" onclick="pressKey('1')">1</button>
+                    <button class="key-btn" onclick="pressKey('2')">2</button>
+                    <button class="key-btn" onclick="pressKey('3')">3</button>
+
+                    <button class="key-btn" onclick="pressKey('0')">0</button>
+                    <button class="key-btn" onclick="pressKey('00')">00</button>
+                    <button class="key-btn gray" id="dot-btn" onclick="pressKey('clear')">クリア</button>
+                </div>
+
+                <div id="elbow-save-wrap" style="margin: 0 12px 12px;">
+                    <button class="key-btn orange" id="enter-btn-label" onclick="pressKey('enter')" style="width: 100%; border: none; border-radius: 16px;">保存</button>
+                </div>
             </div>
 
-            <div id="dist-diagram-wrapper" class="diagram-container hidden">
+            <!-- 距離計算用キーパッド -->
+            <div id="dist-keypad-wrap" class="hidden">
+                <div class="keypad-container dist-keypad">
+                    <button class="key-btn" onclick="pressKey('7')">7</button>
+                    <button class="key-btn" onclick="pressKey('8')">8</button>
+                    <button class="key-btn" onclick="pressKey('9')">9</button>
+                    <button class="key-btn gray" id="delete-btn-label" onclick="pressKey('backspace')">C</button>
+
+                    <button class="key-btn" onclick="pressKey('4')">4</button>
+                    <button class="key-btn" onclick="pressKey('5')">5</button>
+                    <button class="key-btn" onclick="pressKey('6')">6</button>
+                    <button class="key-btn gray" onclick="pressKey('clear')">AC</button>
+
+                    <button class="key-btn" onclick="pressKey('1')">1</button>
+                    <button class="key-btn" onclick="pressKey('2')">2</button>
+                    <button class="key-btn" onclick="pressKey('3')">3</button>
+                    <button class="key-btn orange row-span-2 h-full" id="dist-enter-btn-label" onclick="pressKey('enter')">⏎</button>
+
+                    <button class="key-btn" onclick="pressKey('0')">0</button>
+                    <button class="key-btn" onclick="pressKey('00')">00</button>
+                    <button class="key-btn" onclick="pressKey('.')">.</button>
+                </div>
+            </div>
+
+
+<div id="dist-diagram-wrapper" class="diagram-container hidden">
                 <svg viewBox="0 0 360 210" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                     <line x1="100" y1="10" x2="160" y2="10" stroke="white" stroke-width="2" />
                     <line x1="140" y1="10" x2="140" y2="25" stroke="white" stroke-width="2" />
@@ -592,17 +634,16 @@ if ('serviceWorker' in navigator) {
         document.getElementById('dist-diagram-wrapper').classList.toggle('hidden', !isDist);
         document.getElementById('history-area').classList.toggle('hidden', isDist);
         
-        const enterBtn = document.getElementById('enter-btn-label');
-        const delBtn = document.getElementById('delete-btn-label');
+        const elbowKeypadWrap = document.getElementById('elbow-keypad-wrap');
+        const distKeypadWrap = document.getElementById('dist-keypad-wrap');
+
+        if (elbowKeypadWrap) elbowKeypadWrap.classList.toggle('hidden', isDist);
+        if (distKeypadWrap) distKeypadWrap.classList.toggle('hidden', !isDist);
 
         if (isDist) {
-            enterBtn.innerText = '⏎';
-            delBtn.innerText = 'C';
             focusInput('dist-input-h');
             distCalc();
         } else {
-            enterBtn.innerText = '保存';
-            delBtn.innerText = '貼付';
             updateDisplay('elbow-input', inputs[`elbow-input-${tabId}`]);
             focusInput('elbow-input');
             elbowCalc();

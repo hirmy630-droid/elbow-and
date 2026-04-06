@@ -1,4 +1,4 @@
-const CACHE_NAME = 'elbow-v2';
+const CACHE_NAME = 'elbow-v3-20260407-01';
 const APP_SHELL = [
   './',
   './index.html',
