@@ -361,7 +361,7 @@ if ('serviceWorker' in navigator) {
                     </div>
                     <div class="calc-cell" style="background: #0d0d0f;">
                         <span class="input-label-left">重寸法</span>
-                        <span class="input-value text-zinc-600" id="elbow-d-val">--</span>
+                        <select id="elbow-d-select" class="input-value" onchange="handleDChange()"></select>
                     </div>
                     <div class="calc-cell full-width focused" id="cell-elbow-input" onclick="focusInput('elbow-input')">
                         <span class="input-label-left">芯-芯寸法</span>
@@ -509,11 +509,45 @@ if ('serviceWorker' in navigator) {
         "45": { 75: { d: 30, e: 65 }, 100: { d: 40, e: 80 }, 125: { d: 50, e: 103 } }
     };
 
+    const dOptions = {
+        75: [30, 40],
+        100: [40, 50],
+        125: [50, 55, 65]
+    };
+
+    const dDefaults = {
+        "90": { 75: 30, 100: 40, 125: 50 },
+        "45": { 75: 30, 100: 40, 125: 50 }
+    };
+
     const distXData = { 75: 45, 100: 57, 125: 70 };
+
+    function updateDSelect(resetToDefault = false) {
+        const size = document.getElementById('elbow-size').value;
+        const select = document.getElementById('elbow-d-select');
+        if (!select) return;
+
+        const options = dOptions[size] || [];
+        const defaultValue = String(dDefaults[currentTab]?.[size] ?? options[0] ?? '');
+        const currentValue = select.value;
+
+        select.innerHTML = options.map(v => `<option value="${v}">${v}</option>`).join('');
+
+        if (resetToDefault || !options.map(String).includes(currentValue)) {
+            select.value = defaultValue;
+        } else {
+            select.value = currentValue;
+        }
+    }
+
+    function handleDChange() {
+        elbowCalc();
+    }
 
     function syncAndCalc(val) {
         document.getElementById('elbow-size').value = val;
         document.getElementById('dist-select-size').value = val;
+        updateDSelect(true);
         distCalc();
         elbowCalc();
     }
@@ -645,6 +679,7 @@ if ('serviceWorker' in navigator) {
             distCalc();
         } else {
             updateDisplay('elbow-input', inputs[`elbow-input-${tabId}`]);
+            updateDSelect(true);
             focusInput('elbow-input');
             elbowCalc();
             renderHistory();
@@ -666,17 +701,23 @@ if ('serviceWorker' in navigator) {
         const size = document.getElementById('elbow-size').value;
         const data = elbowData[currentTab] ? elbowData[currentTab][size] : elbowData["90"][size];
         if (!data) return;
-        const { d, e } = data;
-        document.getElementById('elbow-d-val').innerText = d;
+
+        const selectEl = document.getElementById('elbow-d-select');
+        const d = parseFloat(selectEl?.value);
+        const e = data.e;
         const c = parseFloat(inputs[`elbow-input-${currentTab}`]);
         const resEl = document.getElementById('elbow-result-val');
-        if (isNaN(c) || c === 0) { resEl.innerText = "---"; return; }
-        
+
+        if (isNaN(c) || c === 0 || isNaN(d)) {
+            resEl.innerText = "---";
+            return;
+        }
+
         let res = 0;
         if (currentTab === "45") {
-             res = Math.ceil((c / Math.cos(45 * Math.PI / 180)) - ((e - d) * 2));
+            res = Math.ceil((c / Math.cos(45 * Math.PI / 180)) - ((e - d) * 2));
         } else {
-             res = Math.round((c - ((e * 2) - (d * 2))) * 10) / 10;
+            res = Math.round((c - ((e * 2) - (d * 2))) * 10) / 10;
         }
         resEl.innerText = formatNum(res);
     }
@@ -800,10 +841,12 @@ if ('serviceWorker' in navigator) {
     }
 
     window.onload = () => {
+        updateDSelect(true);
         const lastTab = localStorage.getItem(lastTabKey);
         if (lastTab && (lastTab === '90' || lastTab === '45' || lastTab === 'dist')) {
             switchTab(lastTab, true);
         } else {
+            updateDSelect(true);
             elbowCalc();
             renderHistory();
         }
