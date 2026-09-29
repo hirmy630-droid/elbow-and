@@ -35,6 +35,8 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         /* ヘッダーエリア */
@@ -189,6 +191,7 @@
             color: #ffffff;
             text-align: right;
             flex: 1;
+            transition: opacity 0.15s ease;
         }
 
         .result-value {
@@ -207,7 +210,7 @@
             direction: rtl;
         }
 
-        /* キーパッド */
+        /* キーパッド共通 */
         .keypad-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -223,16 +226,14 @@
         .dist-keypad-container {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            background: #18181a;
+            gap: 4px;
+            background: #151517;
             margin: 0 12px 12px;
             border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--ios-border);
-            padding: 2px;
+            border: 1px solid #28282a;
+            padding: 5px;
         }
 
-        /* 入力欄とテンキーの間のセパレーター */
         .keypad-separator {
             margin: 10px 16px 8px;
             height: 1px;
@@ -248,14 +249,13 @@
         .dist-row-top {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 2px;
-            margin-bottom: 2px;
+            gap: 3px;
         }
 
         .dist-row-bottom {
             display: grid;
             grid-template-columns: repeat(9, 1fr);
-            gap: 1px;
+            gap: 3px;
         }
 
         .key-btn {
@@ -266,7 +266,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
+            transition: background 0.12s, transform 0.08s, box-shadow 0.12s;
+            cursor: pointer;
+            user-select: none;
         }
         .key-btn:active { background: #333; }
         .key-btn.orange { background: var(--ios-orange); font-weight: 700; }
@@ -276,62 +278,50 @@
         .dist-row-bottom .key-btn {
             height: 46px;
             padding: 0;
-            border-radius: 6px;
+            border-radius: 7px;
         }
 
-        /* 上段の基本キー（00, .）の立体感スタイル */
         .dist-row-top .key-btn {
-            background: linear-gradient(180deg, #38383a 0%, #262628 100%);
-            color: #f2f2f7;
+            background: #2a2a2d;
+            color: #e5e5ea;
             font-size: 16px;
             font-weight: 600;
-            border-top: 1px solid rgba(255, 255, 255, 0.22);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.6);
-            border-left: 1px solid rgba(255, 255, 255, 0.08);
-            border-right: 1px solid rgba(0, 0, 0, 0.4);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
         }
         .dist-row-top .key-btn:active {
-            background: linear-gradient(180deg, #242426 0%, #1e1e20 100%);
-            transform: translateY(1.5px);
-            box-shadow: 0 0 2px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.5);
-            border-top-color: transparent;
+            background: #202022;
+            transform: scale(0.97);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.04);
         }
 
-        /* C、AC、⏎ キーを少し明るくして際立たせるスタイル */
         .dist-row-top .key-btn.key-accent-light {
-            background: linear-gradient(180deg, #545458 0%, #3e3e42 100%);
+            background: #3e3e42;
             color: #ffffff;
-            border-top: 1px solid rgba(255, 255, 255, 0.35);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.7);
-            border-left: 1px solid rgba(255, 255, 255, 0.12);
-            border-right: 1px solid rgba(0, 0, 0, 0.5);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
         .dist-row-top .key-btn.key-accent-light:active {
-            background: linear-gradient(180deg, #36363a 0%, #2c2c30 100%);
-            transform: translateY(1.5px);
-            box-shadow: 0 0 2px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.6);
-            border-top-color: transparent;
+            background: #303034;
+            transform: scale(0.97);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+            border-color: rgba(255, 255, 255, 0.08);
         }
 
-        /* 下段の数字キー（1〜9, 0）の立体感スタイル */
         .dist-row-bottom .key-btn {
-            background: linear-gradient(180deg, #2c2c2e 0%, #1a1a1c 100%);
+            background: #202022;
             color: #ffffff;
             font-size: 18px;
             font-weight: 600;
-            border-top: 1px solid rgba(255, 255, 255, 0.16);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.65);
-            border-left: 1px solid rgba(255, 255, 255, 0.06);
-            border-right: 1px solid rgba(0, 0, 0, 0.35);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
         }
         .dist-row-bottom .key-btn:active {
-            background: linear-gradient(180deg, #18181a 0%, #121214 100%);
-            transform: translateY(1.5px);
-            box-shadow: 0 0 2px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.5);
-            border-top-color: transparent;
+            background: #171719;
+            transform: scale(0.97);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.04);
         }
 
         #elbow-keypad-wrap .key-btn {
@@ -376,72 +366,36 @@
         .padding-bottom {
             padding-bottom: 40px;
         }
-    
-/* Android fullscreen install UI */
-#installBtn{
-  position:fixed;
-  right:16px;
-  bottom:calc(16px + env(safe-area-inset-bottom));
-  z-index:9999;
-  border:none;
-  border-radius:14px;
-  background:#2563eb;
-  color:#fff;
-  padding:12px 16px;
-  font-size:14px;
-  font-weight:700;
-  box-shadow:0 10px 24px rgba(0,0,0,.35);
-  display:none;
-}
-#installBtn:active{transform:scale(.98)}
-body{
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-}
 
-</style>
+        /* PWAインストール用UI */
+        #installBtn {
+            position: fixed;
+            right: 16px;
+            bottom: calc(16px + env(safe-area-inset-bottom));
+            z-index: 9999;
+            border: none;
+            border-radius: 14px;
+            background: #2563eb;
+            color: #fff;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 10px 24px rgba(0,0,0,.35);
+            display: none;
+            cursor: pointer;
+        }
+        #installBtn:active { transform: scale(.98); }
+    </style>
 
-<link rel="manifest" href="./manifest.json?v=202609290651">
-<meta name="theme-color" content="#000000">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="エルボ計算">
-<link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png">
-<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    try {
-      if (window.location.protocol.startsWith('http')) {
-        navigator.serviceWorker.register('./sw.js?v=202609290651').then((registration) => {
-          registration.onupdatefound = () => {
-            const installingWorker = registration.installing;
-            if (installingWorker == null) return;
-            installingWorker.onstatechange = () => {
-              if (installingWorker.state === 'installed') {
-                if (navigator.serviceWorker.controller) {
-                  installingWorker.postMessage({ type: 'SKIP_WAITING' });
-                }
-              }
-            };
-          };
-        }).catch(() => {});
-
-        let refreshing = false;
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (!refreshing) {
-            window.location.reload();
-            refreshing = true;
-          }
-        });
-      }
-    } catch (e) {}
-  });
-}
-</script>
-
+    <link rel="manifest" href="./manifest.json?v=202609290755">
+    <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="エルボ計算">
+    <link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
 </head>
 <body class="mode-90">
 
@@ -487,7 +441,7 @@ if ('serviceWorker' in navigator) {
                     </div>
                     <div class="calc-cell full-width focused" id="cell-elbow-input" onclick="focusInput('elbow-input')">
                         <span class="input-label-left">芯-芯寸法</span>
-                        <div id="elbow-input" class="input-value">0</div>
+                        <div id="elbow-input" class="input-value" style="opacity: 0.3;">0</div>
                     </div>
                 </div>
             </div>
@@ -505,7 +459,7 @@ if ('serviceWorker' in navigator) {
                 <div class="cell-grid">
                     <div class="calc-cell" id="cell-dist-b" onclick="focusInput('dist-input-b')">
                         <span class="input-label-left">足長</span>
-                        <div id="dist-input-b" class="input-value">0</div>
+                        <div id="dist-input-b" class="input-value" style="opacity: 0.3;">0</div>
                     </div>
                     <div class="calc-cell">
                         <span class="input-label-left">サイズ</span>
@@ -517,11 +471,11 @@ if ('serviceWorker' in navigator) {
                     </div>
                     <div class="calc-cell" id="cell-dist-h" onclick="focusInput('dist-input-h')">
                         <span class="input-label-left">直線</span>
-                        <div id="dist-input-h" class="input-value">0</div>
+                        <div id="dist-input-h" class="input-value" style="opacity: 0.3;">0</div>
                     </div>
                     <div class="calc-cell" id="cell-dist-a" onclick="focusInput('dist-input-a')">
                         <span class="input-label-left">移動</span>
-                        <div id="dist-input-a" class="input-value">0</div>
+                        <div id="dist-input-a" class="input-value" style="opacity: 0.3;">0</div>
                     </div>
                 </div>
             </div>
@@ -553,7 +507,6 @@ if ('serviceWorker' in navigator) {
 
             <!-- 距離計算用キーパッド（2行構成） -->
             <div id="dist-keypad-wrap" class="hidden">
-                <!-- セパレーター -->
                 <div class="keypad-separator"></div>
 
                 <div class="dist-keypad-container">
@@ -629,7 +582,12 @@ if ('serviceWorker' in navigator) {
         'dist-input-b': '', 'dist-input-h': '', 'dist-input-a': ''
     };
 
-    let histories = JSON.parse(localStorage.getItem(storageKey)) || [];
+    let histories = [];
+    try {
+        histories = JSON.parse(localStorage.getItem(storageKey)) || [];
+    } catch (e) {
+        histories = [];
+    }
 
     const elbowData = {
         "90": { 75: { d: 30, e: 88 }, 100: { d: 40, e: 112 }, 125: { d: 50, e: 140 } },
@@ -660,7 +618,7 @@ if ('serviceWorker' in navigator) {
         isOverwriteMode = true;
     }
 
-    async function pressKey(key) {
+    function pressKey(key) {
         let val = inputs[focusedInputId] || '';
         
         if (key === 'clear') {
@@ -669,28 +627,11 @@ if ('serviceWorker' in navigator) {
                 return;
             }
             val = '';
-            isOverwriteMode = false;
+            isOverwriteMode = true;
         } else if (key === 'backspace') {
-            if (currentTab === 'dist') {
-                val = '';
-            } else {
-                try {
-                    const text = await navigator.clipboard.readText();
-                    const cleanText = text.replace(/[^0-9.]/g, '');
-                    if (cleanText) {
-                        val = cleanText;
-                        isOverwriteMode = false;
-                        showToast("貼り付けました");
-                    } else {
-                        showToast("有効な数値がありません");
-                        return;
-                    }
-                } catch (err) {
-                    showToast("貼り付けに失敗しました");
-                    return;
-                }
-            }
-            isOverwriteMode = false;
+            // 現在フォーカスされている入力欄をクリア
+            val = '';
+            isOverwriteMode = true;
         } else if (key === 'enter') {
             handleEnter();
             return;
@@ -702,8 +643,12 @@ if ('serviceWorker' in navigator) {
                 val += val === '' ? '0.' : '.';
             }
         } else {
-            if (isOverwriteMode) { val = key; isOverwriteMode = false; }
-            else { val = (val === '0') ? key : val + key; }
+            if (isOverwriteMode) { 
+                val = key; 
+                isOverwriteMode = false; 
+            } else { 
+                val = (val === '0') ? key : val + key; 
+            }
         }
         
         inputs[focusedInputId] = val;
@@ -736,8 +681,8 @@ if ('serviceWorker' in navigator) {
     function updateDisplay(id, val) {
         const el = document.getElementById(id);
         if (!el) return;
-        el.innerText = val === '' ? '0' : formatNum(val);
-        el.style.opacity = val === '' ? '0.3' : '1';
+        el.innerText = (val === '' || val === undefined) ? '0' : formatNum(val);
+        el.style.opacity = (val === '' || val === undefined) ? '0.3' : '1';
     }
 
     function formatNum(num) {
@@ -749,10 +694,13 @@ if ('serviceWorker' in navigator) {
 
     function switchTab(tabId, isAutoLoad = false) {
         currentTab = tabId;
-        localStorage.setItem(lastTabKey, tabId);
+        try {
+            localStorage.setItem(lastTabKey, tabId);
+        } catch (e) {}
 
         document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-        document.getElementById(`nav-${tabId}`).classList.add('active');
+        const activeNav = document.getElementById(`nav-${tabId}`);
+        if (activeNav) activeNav.classList.add('active');
         document.body.className = `mode-${tabId}`;
 
         const isDist = tabId === 'dist';
@@ -778,9 +726,10 @@ if ('serviceWorker' in navigator) {
         }
     }
 
+    // スワイプによるタブ切り替え
     let startX = 0;
     const swipeArea = document.getElementById('swipe-container');
-    swipeArea.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive: true});
+    swipeArea.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
     swipeArea.addEventListener('touchend', e => {
         const diff = e.changedTouches[0].clientX - startX;
         const tabs = ['90', '45', 'dist'];
@@ -813,14 +762,21 @@ if ('serviceWorker' in navigator) {
         const h = parseFloat(inputs['dist-input-h']);
         const a = parseFloat(inputs['dist-input-a']);
         const size = document.getElementById('dist-select-size').value;
-        const x = distXData[size];
+        const x = distXData[size] || 0;
         
         const resEl = document.getElementById('dist-result-val');
         const diagRes = document.getElementById('dist-diagram-result');
         
+        // 直線または移動が未入力・無効値の場合の同期クリア処理
         if (isNaN(h) || isNaN(a)) { 
             resEl.innerText = "---"; 
-            diagRes.textContent = "---"; 
+            diagRes.textContent = "---";
+            inputs['elbow-input-90'] = '';
+            inputs['elbow-input-45'] = '';
+            if (currentTab === '90' || currentTab === '45') {
+                updateDisplay('elbow-input', '');
+                elbowCalc();
+            }
             return; 
         }
 
@@ -840,16 +796,19 @@ if ('serviceWorker' in navigator) {
 
     function saveHistory() {
         const size = document.getElementById('elbow-size').value;
-        const inputStr = formatNum(inputs[`elbow-input-${currentTab}`]);
+        const currentVal = inputs[`elbow-input-${currentTab}`];
+        const inputStr = formatNum(currentVal);
         const result = document.getElementById('elbow-result-val').innerText;
-        if (result === "---" || !inputs[`elbow-input-${currentTab}`]) return;
+        if (result === "---" || !currentVal) return;
         
         histories.push({ id: Date.now(), mode: currentTab, size, input: inputStr, result, locked: false });
         if (histories.filter(h => !h.locked).length > 10) {
             const idx = histories.findIndex(h => !h.locked);
-            histories.splice(idx, 1);
+            if (idx !== -1) histories.splice(idx, 1);
         }
-        localStorage.setItem(storageKey, JSON.stringify(histories));
+        try {
+            localStorage.setItem(storageKey, JSON.stringify(histories));
+        } catch (e) {}
         renderHistory();
         
         showToast("保存しました");
@@ -858,12 +817,16 @@ if ('serviceWorker' in navigator) {
 
     function toggleLock(id) {
         const h = histories.find(x => x.id === id);
-        if (h) { h.locked = !h.locked; localStorage.setItem(storageKey, JSON.stringify(histories)); renderHistory(); }
+        if (h) { 
+            h.locked = !h.locked; 
+            try { localStorage.setItem(storageKey, JSON.stringify(histories)); } catch (e) {}
+            renderHistory(); 
+        }
     }
 
     function deleteHistoryItem(id) {
         histories = histories.filter(h => h.id !== id);
-        localStorage.setItem(storageKey, JSON.stringify(histories));
+        try { localStorage.setItem(storageKey, JSON.stringify(histories)); } catch (e) {}
         renderHistory();
         showToast("削除しました");
     }
@@ -872,12 +835,15 @@ if ('serviceWorker' in navigator) {
         const list = document.getElementById('history-list');
         list.innerHTML = "";
         const filtered = histories.filter(h => h.mode === currentTab).reverse();
-        if (filtered.length === 0) { list.innerHTML = '<div class="text-center py-8 text-zinc-800 text-xs font-bold">履歴なし</div>'; return; }
+        if (filtered.length === 0) { 
+            list.innerHTML = '<div class="text-center py-8 text-zinc-800 text-xs font-bold">履歴なし</div>'; 
+            return; 
+        }
         filtered.forEach(h => {
             const div = document.createElement('div');
             div.className = `history-item ${h.locked ? 'is-locked' : ''}`;
             div.innerHTML = `
-                <button onclick="toggleLock(${h.id})" class="p-2 ${h.locked ? 'text-orange-500' : 'text-zinc-600'}">
+                <button type="button" onclick="toggleLock(${h.id})" class="p-2 ${h.locked ? 'text-orange-500' : 'text-zinc-600'}">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 </button>
                 <div class="flex-1">
@@ -885,7 +851,7 @@ if ('serviceWorker' in navigator) {
                     <div class="text-xl font-bold">${h.result}</div>
                 </div>
                 ${!h.locked ? `
-                <button onclick="deleteHistoryItem(${h.id})" class="p-2 text-zinc-500">
+                <button type="button" onclick="deleteHistoryItem(${h.id})" class="p-2 text-zinc-500">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -899,30 +865,44 @@ if ('serviceWorker' in navigator) {
 
     function clearHistory() {
         histories = histories.filter(h => h.locked || h.mode !== currentTab);
-        localStorage.setItem(storageKey, JSON.stringify(histories));
+        try { localStorage.setItem(storageKey, JSON.stringify(histories)); } catch (e) {}
         renderHistory();
     }
 
     function copyResult(id) { 
-        const val = document.getElementById(id).innerText;
-        copyRaw(val);
+        const el = document.getElementById(id);
+        if (!el) return;
+        copyRaw(el.innerText);
     }
+
     function copyRaw(val) {
-        if (val === "---") return;
+        if (!val || val === "---") return;
         const t = document.createElement('textarea');
         t.value = val.replace(/,/g, '');
-        document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t);
-        showToast("コピーしました");
+        t.setAttribute('readonly', '');
+        t.style.position = 'absolute';
+        t.style.left = '-9999px';
+        document.body.appendChild(t); 
+        t.select(); 
+        try {
+            document.execCommand('copy');
+            showToast("コピーしました");
+        } catch (e) {
+            showToast("コピーに失敗しました");
+        }
+        document.body.removeChild(t);
     }
 
     function showToast(msg) {
         const t = document.getElementById('toast');
-        t.innerText = msg; t.classList.add('show');
+        t.innerText = msg; 
+        t.classList.add('show');
         setTimeout(() => t.classList.remove('show'), 1000);
     }
 
     window.onload = () => {
-        const lastTab = localStorage.getItem(lastTabKey);
+        let lastTab = null;
+        try { lastTab = localStorage.getItem(lastTabKey); } catch (e) {}
         if (lastTab && (lastTab === '90' || lastTab === '45' || lastTab === 'dist')) {
             switchTab(lastTab, true);
         } else {
@@ -932,13 +912,42 @@ if ('serviceWorker' in navigator) {
     };
 </script>
 
-<button id="installBtn" style="position:fixed;right:16px;bottom:20px;z-index:9999;background:#2563eb;color:#fff;border:none;border-radius:14px;padding:12px 16px;font-weight:700;box-shadow:0 10px 24px rgba(0,0,0,.45);display:none;">アプリをインストール</button>
+<button id="installBtn">アプリをインストール</button>
 <div id="iosInstallTip" style="position:fixed;left:16px;right:16px;bottom:20px;z-index:9999;background:rgba(28,28,30,.96);color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px;display:none;line-height:1.45;">
   <div>iPhone / iPad はSafariの共有から「ホーム画面に追加」を使ってください。</div>
-  <button type="button" id="closeIosTip" style="margin-top:10px;background:#2c2c2e;color:#fff;border:none;padding:8px 12px;border-radius:10px;">閉じる</button>
+  <button type="button" id="closeIosTip" style="margin-top:10px;background:#2c2c2e;color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;">閉じる</button>
 </div>
+
 <script>
 (() => {
+  // Service Worker 登録
+  if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+    window.addEventListener('load', () => {
+      try {
+        navigator.serviceWorker.register('./sw.js?v=202609290755').then((registration) => {
+          registration.onupdatefound = () => {
+            const installingWorker = registration.installing;
+            if (!installingWorker) return;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                installingWorker.postMessage({ type: 'SKIP_WAITING' });
+              }
+            };
+          };
+        }).catch(() => {});
+
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            window.location.reload();
+            refreshing = true;
+          }
+        });
+      } catch (e) {}
+    });
+  }
+
+  // PWA インストールUI制御（重複を排除し1箇所に統合）
   const installBtn = document.getElementById('installBtn');
   const iosTip = document.getElementById('iosInstallTip');
   const closeIosTip = document.getElementById('closeIosTip');
@@ -961,11 +970,21 @@ if ('serviceWorker' in navigator) {
         installBtn.style.display = 'none';
         return;
       }
-      if (isIOS && !isStandalone && iosTip) iosTip.style.display = 'block';
+      if (isIOS && !isStandalone && iosTip) {
+        iosTip.style.display = 'block';
+      }
     });
   }
-  if (closeIosTip) closeIosTip.addEventListener('click', () => iosTip.style.display = 'none');
-  if (isIOS && !isStandalone && installBtn) installBtn.style.display = 'block';
+
+  if (closeIosTip) {
+    closeIosTip.addEventListener('click', () => {
+      if (iosTip) iosTip.style.display = 'none';
+    });
+  }
+  
+  if (isIOS && !isStandalone && installBtn) {
+    installBtn.style.display = 'block';
+  }
 })();
 </script>
 
