@@ -219,8 +219,43 @@
             border: 1px solid var(--ios-border);
         }
 
-        .keypad-container.dist-keypad {
-            grid-template-columns: repeat(4, 1fr);
+        /* 距離計算用キーパッド（2行構成） */
+        .dist-keypad-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            background: #18181a;
+            margin: 0 12px 12px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--ios-border);
+            padding: 2px;
+        }
+
+        /* 入力欄とテンキーの間のセパレーター */
+        .keypad-separator {
+            margin: 10px 16px 8px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #3a3a3c 20%, #48484a 50%, #3a3a3c 80%, transparent);
+            position: relative;
+        }
+
+        #section-dist .cell-grid {
+            border-radius: 16px;
+            border-bottom: 1px solid var(--ios-border);
+        }
+
+        .dist-row-top {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 2px;
+            margin-bottom: 2px;
+        }
+
+        .dist-row-bottom {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 1px;
         }
 
         .key-btn {
@@ -231,12 +266,73 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.1s;
+            transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
         }
         .key-btn:active { background: #333; }
         .key-btn.orange { background: var(--ios-orange); font-weight: 700; }
         .key-btn.gray { background: #4a4a4d; color: #f2f2f7; font-size: 18px; font-weight: 700; }
 
+        .dist-row-top .key-btn,
+        .dist-row-bottom .key-btn {
+            height: 46px;
+            padding: 0;
+            border-radius: 6px;
+        }
+
+        /* 上段の基本キー（00, .）の立体感スタイル */
+        .dist-row-top .key-btn {
+            background: linear-gradient(180deg, #38383a 0%, #262628 100%);
+            color: #f2f2f7;
+            font-size: 16px;
+            font-weight: 600;
+            border-top: 1px solid rgba(255, 255, 255, 0.22);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            border-right: 1px solid rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+        .dist-row-top .key-btn:active {
+            background: linear-gradient(180deg, #242426 0%, #1e1e20 100%);
+            transform: translateY(1.5px);
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            border-top-color: transparent;
+        }
+
+        /* C、AC、⏎ キーを少し明るくして際立たせるスタイル */
+        .dist-row-top .key-btn.key-accent-light {
+            background: linear-gradient(180deg, #545458 0%, #3e3e42 100%);
+            color: #ffffff;
+            border-top: 1px solid rgba(255, 255, 255, 0.35);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+            border-left: 1px solid rgba(255, 255, 255, 0.12);
+            border-right: 1px solid rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .dist-row-top .key-btn.key-accent-light:active {
+            background: linear-gradient(180deg, #36363a 0%, #2c2c30 100%);
+            transform: translateY(1.5px);
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.6);
+            border-top-color: transparent;
+        }
+
+        /* 下段の数字キー（1〜9, 0）の立体感スタイル */
+        .dist-row-bottom .key-btn {
+            background: linear-gradient(180deg, #2c2c2e 0%, #1a1a1c 100%);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            border-top: 1px solid rgba(255, 255, 255, 0.16);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.65);
+            border-left: 1px solid rgba(255, 255, 255, 0.06);
+            border-right: 1px solid rgba(0, 0, 0, 0.35);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .dist-row-bottom .key-btn:active {
+            background: linear-gradient(180deg, #18181a 0%, #121214 100%);
+            transform: translateY(1.5px);
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            border-top-color: transparent;
+        }
 
         #elbow-keypad-wrap .key-btn {
             height: 58px;
@@ -305,18 +401,44 @@ body{
 
 </style>
 
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="エルボ計算">
-<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
 <script>
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+  window.addEventListener('load', () => {
+    try {
+      if (window.location.protocol.startsWith('http')) {
+        navigator.serviceWorker.register('./sw.js?v=20260929').then((registration) => {
+          registration.onupdatefound = () => {
+            const installingWorker = registration.installing;
+            if (installingWorker == null) return;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  installingWorker.postMessage({ type: 'SKIP_WAITING' });
+                }
+              }
+            };
+          };
+        }).catch(() => {});
+
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            window.location.reload();
+            refreshing = true;
+          }
+        });
+      }
+    } catch (e) {}
+  });
 }
 </script>
 
@@ -361,7 +483,7 @@ if ('serviceWorker' in navigator) {
                     </div>
                     <div class="calc-cell" style="background: #0d0d0f;">
                         <span class="input-label-left">重寸法</span>
-                        <select id="elbow-d-select" class="input-value" onchange="handleDChange()"></select>
+                        <span class="input-value text-zinc-600" id="elbow-d-val">--</span>
                     </div>
                     <div class="calc-cell full-width focused" id="cell-elbow-input" onclick="focusInput('elbow-input')">
                         <span class="input-label-left">芯-芯寸法</span>
@@ -429,32 +551,37 @@ if ('serviceWorker' in navigator) {
                 </div>
             </div>
 
-            <!-- 距離計算用キーパッド -->
+            <!-- 距離計算用キーパッド（2行構成） -->
             <div id="dist-keypad-wrap" class="hidden">
-                <div class="keypad-container dist-keypad">
-                    <button class="key-btn" onclick="pressKey('7')">7</button>
-                    <button class="key-btn" onclick="pressKey('8')">8</button>
-                    <button class="key-btn" onclick="pressKey('9')">9</button>
-                    <button class="key-btn gray" id="delete-btn-label" onclick="pressKey('backspace')">C</button>
+                <!-- セパレーター -->
+                <div class="keypad-separator"></div>
 
-                    <button class="key-btn" onclick="pressKey('4')">4</button>
-                    <button class="key-btn" onclick="pressKey('5')">5</button>
-                    <button class="key-btn" onclick="pressKey('6')">6</button>
-                    <button class="key-btn gray" onclick="pressKey('clear')">AC</button>
-
-                    <button class="key-btn" onclick="pressKey('1')">1</button>
-                    <button class="key-btn" onclick="pressKey('2')">2</button>
-                    <button class="key-btn" onclick="pressKey('3')">3</button>
-                    <button class="key-btn orange row-span-2 h-full" id="dist-enter-btn-label" onclick="pressKey('enter')">⏎</button>
-
-                    <button class="key-btn" onclick="pressKey('0')">0</button>
-                    <button class="key-btn" onclick="pressKey('00')">00</button>
-                    <button class="key-btn" onclick="pressKey('.')">.</button>
+                <div class="dist-keypad-container">
+                    <!-- 上段（1行目）: [C] [AC] [00] [.] [⏎] -->
+                    <div class="dist-row-top">
+                        <button class="key-btn key-accent-light" id="delete-btn-label" onclick="pressKey('backspace')">C</button>
+                        <button class="key-btn key-accent-light" onclick="pressKey('clear')">AC</button>
+                        <button class="key-btn" onclick="pressKey('00')">00</button>
+                        <button class="key-btn" onclick="pressKey('.')">.</button>
+                        <button class="key-btn key-accent-light" id="dist-enter-btn-label" onclick="pressKey('enter')">⏎</button>
+                    </div>
+                    <!-- 下段（2行目）: [1] 〜 [9], [0] -->
+                    <div class="dist-row-bottom">
+                        <button class="key-btn" onclick="pressKey('1')">1</button>
+                        <button class="key-btn" onclick="pressKey('2')">2</button>
+                        <button class="key-btn" onclick="pressKey('3')">3</button>
+                        <button class="key-btn" onclick="pressKey('4')">4</button>
+                        <button class="key-btn" onclick="pressKey('5')">5</button>
+                        <button class="key-btn" onclick="pressKey('6')">6</button>
+                        <button class="key-btn" onclick="pressKey('7')">7</button>
+                        <button class="key-btn" onclick="pressKey('8')">8</button>
+                        <button class="key-btn" onclick="pressKey('9')">9</button>
+                        <button class="key-btn" onclick="pressKey('0')">0</button>
+                    </div>
                 </div>
             </div>
 
-
-<div id="dist-diagram-wrapper" class="diagram-container hidden">
+            <div id="dist-diagram-wrapper" class="diagram-container hidden">
                 <svg viewBox="0 0 360 210" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                     <line x1="100" y1="10" x2="160" y2="10" stroke="white" stroke-width="2" />
                     <line x1="140" y1="10" x2="140" y2="25" stroke="white" stroke-width="2" />
@@ -509,45 +636,11 @@ if ('serviceWorker' in navigator) {
         "45": { 75: { d: 30, e: 65 }, 100: { d: 40, e: 80 }, 125: { d: 50, e: 103 } }
     };
 
-    const dOptions = {
-        75: [30, 40],
-        100: [40, 50],
-        125: [50, 55, 65]
-    };
-
-    const dDefaults = {
-        "90": { 75: 30, 100: 40, 125: 50 },
-        "45": { 75: 30, 100: 40, 125: 50 }
-    };
-
     const distXData = { 75: 45, 100: 57, 125: 70 };
-
-    function updateDSelect(resetToDefault = false) {
-        const size = document.getElementById('elbow-size').value;
-        const select = document.getElementById('elbow-d-select');
-        if (!select) return;
-
-        const options = dOptions[size] || [];
-        const defaultValue = String(dDefaults[currentTab]?.[size] ?? options[0] ?? '');
-        const currentValue = select.value;
-
-        select.innerHTML = options.map(v => `<option value="${v}">${v}</option>`).join('');
-
-        if (resetToDefault || !options.map(String).includes(currentValue)) {
-            select.value = defaultValue;
-        } else {
-            select.value = currentValue;
-        }
-    }
-
-    function handleDChange() {
-        elbowCalc();
-    }
 
     function syncAndCalc(val) {
         document.getElementById('elbow-size').value = val;
         document.getElementById('dist-select-size').value = val;
-        updateDSelect(true);
         distCalc();
         elbowCalc();
     }
@@ -679,7 +772,6 @@ if ('serviceWorker' in navigator) {
             distCalc();
         } else {
             updateDisplay('elbow-input', inputs[`elbow-input-${tabId}`]);
-            updateDSelect(true);
             focusInput('elbow-input');
             elbowCalc();
             renderHistory();
@@ -701,23 +793,17 @@ if ('serviceWorker' in navigator) {
         const size = document.getElementById('elbow-size').value;
         const data = elbowData[currentTab] ? elbowData[currentTab][size] : elbowData["90"][size];
         if (!data) return;
-
-        const selectEl = document.getElementById('elbow-d-select');
-        const d = parseFloat(selectEl?.value);
-        const e = data.e;
+        const { d, e } = data;
+        document.getElementById('elbow-d-val').innerText = d;
         const c = parseFloat(inputs[`elbow-input-${currentTab}`]);
         const resEl = document.getElementById('elbow-result-val');
-
-        if (isNaN(c) || c === 0 || isNaN(d)) {
-            resEl.innerText = "---";
-            return;
-        }
-
+        if (isNaN(c) || c === 0) { resEl.innerText = "---"; return; }
+        
         let res = 0;
         if (currentTab === "45") {
-            res = Math.ceil((c / Math.cos(45 * Math.PI / 180)) - ((e - d) * 2));
+             res = Math.ceil((c / Math.cos(45 * Math.PI / 180)) - ((e - d) * 2));
         } else {
-            res = Math.round((c - ((e * 2) - (d * 2))) * 10) / 10;
+             res = Math.round((c - ((e * 2) - (d * 2))) * 10) / 10;
         }
         resEl.innerText = formatNum(res);
     }
@@ -766,12 +852,7 @@ if ('serviceWorker' in navigator) {
         localStorage.setItem(storageKey, JSON.stringify(histories));
         renderHistory();
         
-        // 【修正】入力欄の数値をクリアせずにそのまま残す
-        // inputs[`elbow-input-${currentTab}`] = ''; 
-        // updateDisplay('elbow-input', '');
-        
         showToast("保存しました");
-        // 次のキー入力で上書きされるようモード設定
         isOverwriteMode = true;
     }
 
@@ -841,12 +922,10 @@ if ('serviceWorker' in navigator) {
     }
 
     window.onload = () => {
-        updateDSelect(true);
         const lastTab = localStorage.getItem(lastTabKey);
         if (lastTab && (lastTab === '90' || lastTab === '45' || lastTab === 'dist')) {
             switchTab(lastTab, true);
         } else {
-            updateDSelect(true);
             elbowCalc();
             renderHistory();
         }
@@ -889,7 +968,6 @@ if ('serviceWorker' in navigator) {
   if (isIOS && !isStandalone && installBtn) installBtn.style.display = 'block';
 })();
 </script>
-
 
 </body>
 </html>

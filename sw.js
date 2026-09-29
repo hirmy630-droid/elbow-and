@@ -1,7 +1,8 @@
-const CACHE_NAME = 'elbow-v3-20260410-01';
+const CACHE_NAME = 'elbow-v20260929-01';
 const APP_SHELL = [
   './',
   './index.html',
+  './index.html?v=20260929',
   './manifest.json',
   './icon-180.png',
   './icon-192.png',
@@ -20,9 +21,11 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
-        keys.map((key) =>
-          key !== CACHE_NAME ? caches.delete(key) : Promise.resolve()
-        )
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
       )
     ).then(() => self.clients.claim())
   );
@@ -31,7 +34,33 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
+  // Network First strategy
   event.respondWith(
-    caches.match(event.request).then((res) => res || fetch(event.request))
+    fetch(event.request)
+      .then((response) => {
+        // HTTPステータスが正常かつ、自ドメインのリクエストであるか確認
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+
+        // キャッシュを更新
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+
+        return response;
+      })
+      .catch(() => {
+        // オフライン時はキャッシュから返す
+        return caches.match(event.request);
+      })
   );
+});
+
+// 新しいワーカーへの切り替えをクライアントから強制するための処理
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
