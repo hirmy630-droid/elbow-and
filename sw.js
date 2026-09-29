@@ -1,9 +1,10 @@
-const CACHE_NAME = 'elbow-v20260929-01';
+const CACHE_NAME = 'elbow-v202609290651';
 const APP_SHELL = [
   './',
   './index.html',
-  './index.html?v=20260929',
+  './index.html?v=202609290651',
   './manifest.json',
+  './manifest.json?v=202609290651',
   './icon-180.png',
   './icon-192.png',
   './icon-512.png'

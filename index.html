@@ -247,14 +247,14 @@
 
         .dist-row-top {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 2px;
             margin-bottom: 2px;
         }
 
         .dist-row-bottom {
             display: grid;
-            grid-template-columns: repeat(10, 1fr);
+            grid-template-columns: repeat(9, 1fr);
             gap: 1px;
         }
 
@@ -401,7 +401,7 @@ body{
 
 </style>
 
-<link rel="manifest" href="./manifest.json">
+<link rel="manifest" href="./manifest.json?v=202609290651">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -415,7 +415,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     try {
       if (window.location.protocol.startsWith('http')) {
-        navigator.serviceWorker.register('./sw.js?v=20260929').then((registration) => {
+        navigator.serviceWorker.register('./sw.js?v=202609290651').then((registration) => {
           registration.onupdatefound = () => {
             const installingWorker = registration.installing;
             if (installingWorker == null) return;
@@ -557,15 +557,16 @@ if ('serviceWorker' in navigator) {
                 <div class="keypad-separator"></div>
 
                 <div class="dist-keypad-container">
-                    <!-- 上段（1行目）: [C] [AC] [00] [.] [⏎] -->
+                    <!-- 上段（1行目）: [AC] [C] [0] [00] [.] [⏎] -->
                     <div class="dist-row-top">
-                        <button class="key-btn key-accent-light" id="delete-btn-label" onclick="pressKey('backspace')">C</button>
                         <button class="key-btn key-accent-light" onclick="pressKey('clear')">AC</button>
+                        <button class="key-btn key-accent-light" id="delete-btn-label" onclick="pressKey('backspace')">C</button>
+                        <button class="key-btn" onclick="pressKey('0')">0</button>
                         <button class="key-btn" onclick="pressKey('00')">00</button>
                         <button class="key-btn" onclick="pressKey('.')">.</button>
                         <button class="key-btn key-accent-light" id="dist-enter-btn-label" onclick="pressKey('enter')">⏎</button>
                     </div>
-                    <!-- 下段（2行目）: [1] 〜 [9], [0] -->
+                    <!-- 下段（2行目）: [1] 〜 [9] -->
                     <div class="dist-row-bottom">
                         <button class="key-btn" onclick="pressKey('1')">1</button>
                         <button class="key-btn" onclick="pressKey('2')">2</button>
@@ -576,7 +577,6 @@ if ('serviceWorker' in navigator) {
                         <button class="key-btn" onclick="pressKey('7')">7</button>
                         <button class="key-btn" onclick="pressKey('8')">8</button>
                         <button class="key-btn" onclick="pressKey('9')">9</button>
-                        <button class="key-btn" onclick="pressKey('0')">0</button>
                     </div>
                 </div>
             </div>
