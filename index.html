@@ -17,7 +17,6 @@
             --ios-silver: #c7c7cc;
             --ios-silver-dark: #9a9a9e;
             --label-gray: #b0b0b5;
-            --unfocused-border: #444446;
         }
 
         * {
@@ -39,7 +38,6 @@
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* ヘッダーエリア */
         .app-header {
             padding: 16px 12px 6px;
             display: flex;
@@ -60,7 +58,6 @@
             font-weight: 600;
         }
 
-        /* タブ (固定表示) */
         .tab-wrapper {
             position: sticky;
             top: 0;
@@ -106,7 +103,6 @@
         .mode-45 #nav-45.active { border-color: var(--accent-45); }
         .mode-dist #nav-dist.active { border-color: var(--accent-dist); }
 
-        /* スワイプコンテナ */
         #swipe-container {
             flex: 1;
             width: 100%;
@@ -123,7 +119,6 @@
             flex-direction: column;
         }
 
-        /* 計算結果枠 */
         .result-box {
             height: 64px;
             padding: 0 16px;
@@ -134,6 +129,7 @@
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
             transition: background 0.3s, transform 0.1s;
+            cursor: pointer;
         }
         .result-box:active { transform: scale(0.98); }
 
@@ -141,8 +137,8 @@
         .mode-45 .result-box { background: var(--accent-45); }
         .mode-dist .result-box { background: var(--accent-dist); }
 
-        /* セルグリッド */
-        .cell-grid {
+        /* エルボ用セルグリッド */
+        .elbow-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             background: var(--ios-border);
@@ -162,6 +158,7 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+            cursor: pointer;
         }
 
         .full-width { grid-column: span 2; }
@@ -210,7 +207,7 @@
             direction: rtl;
         }
 
-        /* キーパッド共通 */
+        /* エルボ用3x4テンキー */
         .keypad-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -222,51 +219,15 @@
             border: 1px solid var(--ios-border);
         }
 
-        /* 距離計算用キーパッド（2行構成） */
-        .dist-keypad-container {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            background: #151517;
-            margin: 0 12px 12px;
-            border-radius: 12px;
-            border: 1px solid #28282a;
-            padding: 5px;
-        }
-
-        .keypad-separator {
-            margin: 10px 16px 8px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #3a3a3c 20%, #48484a 50%, #3a3a3c 80%, transparent);
-            position: relative;
-        }
-
-        #section-dist .cell-grid {
-            border-radius: 16px;
-            border-bottom: 1px solid var(--ios-border);
-        }
-
-        .dist-row-top {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 3px;
-        }
-
-        .dist-row-bottom {
-            display: grid;
-            grid-template-columns: repeat(9, 1fr);
-            gap: 3px;
-        }
-
         .key-btn {
             background: #1c1c1e;
             color: white;
-            height: 68px;
+            height: 58px;
             font-size: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.12s, transform 0.08s, box-shadow 0.12s;
+            transition: background 0.12s, transform 0.08s;
             cursor: pointer;
             user-select: none;
         }
@@ -274,66 +235,103 @@
         .key-btn.orange { background: var(--ios-orange); font-weight: 700; }
         .key-btn.gray { background: #4a4a4d; color: #f2f2f7; font-size: 18px; font-weight: 700; }
 
-        .dist-row-top .key-btn,
-        .dist-row-bottom .key-btn {
-            height: 46px;
+        /* 距離計算用: 入力欄とテンキーを隙間ゼロで一体化するユニット */
+        .unified-input-unit {
+            background: #1c1c1e;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--ios-border);
+            margin: 0 12px 12px;
+        }
+
+        .unified-input-unit .cell-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--ios-border);
+            gap: 1px;
+            margin: 0;
+            border: none;
+            border-bottom: 1px solid var(--ios-border);
+        }
+
+        .dist-keypad-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            background: #151517;
             padding: 0;
-            border-radius: 7px;
         }
 
-        .dist-row-top .key-btn {
-            background: #2a2a2d;
+        .dist-row-top {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0;
+            border-bottom: 1px solid var(--ios-border);
+        }
+
+        .dist-row-bottom {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 0;
+        }
+
+        /* 距離計算用キーボタン（隙間ゼロ・立体感） */
+        .dist-row-top .dist-btn,
+        .dist-row-bottom .dist-btn {
+            height: 52px;
+            padding: 0;
+            border-radius: 0;
+            border-right: 1px solid var(--ios-border);
+            border-bottom: none;
+            border-top: none;
+            border-left: none;
+            background: #242426;
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -2px 0 rgba(0, 0, 0, 0.35);
+            transition: background 0.08s ease;
+        }
+
+        .dist-row-top .dist-btn:last-child,
+        .dist-row-bottom .dist-btn:last-child {
+            border-right: none;
+        }
+
+        .dist-row-top .dist-btn:active,
+        .dist-row-bottom .dist-btn:active {
+            background: #18181a;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        /* 1行目のグレー制御キー（AC, C） */
+        .dist-btn.key-control-gray {
+            background: #353538;
             color: #e5e5ea;
-            font-size: 16px;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.4);
         }
-        .dist-row-top .key-btn:active {
-            background: #202022;
-            transform: scale(0.97);
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.04);
+        .dist-btn.key-control-gray:active {
+            background: #28282b;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7);
         }
 
-        .dist-row-top .key-btn.key-accent-light {
-            background: #3e3e42;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        .dist-row-top .key-btn.key-accent-light:active {
-            background: #303034;
-            transform: scale(0.97);
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
-            border-color: rgba(255, 255, 255, 0.08);
+        /* ⏎キー: 背景・立体感は0キーと同じ、マークのみオレンジ */
+        .dist-btn.key-enter-btn {
+            color: var(--ios-orange);
+            font-size: 1.45rem;
+            font-weight: 700;
         }
 
-        .dist-row-bottom .key-btn {
-            background: #202022;
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
-        }
-        .dist-row-bottom .key-btn:active {
-            background: #171719;
-            transform: scale(0.97);
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.04);
+        /* 2行目の9分割キーの文字サイズ調整 */
+        .dist-row-bottom .dist-btn {
+            font-size: 1.25rem;
         }
 
-        #elbow-keypad-wrap .key-btn {
-            height: 58px;
-        }
-
-        #elbow-save-wrap .key-btn {
-            height: 56px;
-            font-size: 22px;
-        }
-
-        /* 履歴・図面 */
         .history-area { padding: 12px; background: #000; }
         .history-header {
             font-size: 15px;
@@ -363,11 +361,8 @@
         #toast.show { opacity: 1; }
         .hidden { display: none !important; }
 
-        .padding-bottom {
-            padding-bottom: 40px;
-        }
+        .padding-bottom { padding-bottom: 40px; }
 
-        /* PWAインストール用UI */
         #installBtn {
             position: fixed;
             right: 16px;
@@ -416,7 +411,7 @@
                 </div>
             </div>
 
-            <!-- エルボモード -->
+            <!-- エルボモード（90° / 45°） -->
             <div id="section-elbow">
                 <div class="result-box" onclick="copyResult('elbow-result-val')">
                     <div class="result-label-left">切寸法</div>
@@ -426,7 +421,7 @@
                     </div>
                 </div>
 
-                <div class="cell-grid">
+                <div class="elbow-grid">
                     <div class="calc-cell">
                         <span class="input-label-left">サイズ</span>
                         <select id="elbow-size" class="input-value" onchange="syncAndCalc(this.value)">
@@ -446,7 +441,7 @@
                 </div>
             </div>
 
-            <!-- 距離計算モード -->
+            <!-- 距離計算モード: 入力欄とテンキーが完全に一体化したユニット -->
             <div id="section-dist" class="hidden">
                 <div class="result-box" onclick="copyResult('dist-result-val')">
                     <div class="result-label-left">芯-芯寸法</div>
@@ -456,26 +451,54 @@
                     </div>
                 </div>
 
-                <div class="cell-grid">
-                    <div class="calc-cell" id="cell-dist-b" onclick="focusInput('dist-input-b')">
-                        <span class="input-label-left">足長</span>
-                        <div id="dist-input-b" class="input-value" style="opacity: 0.3;">0</div>
+                <!-- 一体型コンテナ -->
+                <div class="unified-input-unit">
+                    <div class="cell-grid">
+                        <div class="calc-cell" id="cell-dist-b" onclick="focusInput('dist-input-b')">
+                            <span class="input-label-left">足長</span>
+                            <div id="dist-input-b" class="input-value" style="opacity: 0.3;">0</div>
+                        </div>
+                        <div class="calc-cell">
+                            <span class="input-label-left">サイズ</span>
+                            <select id="dist-select-size" class="input-value" onchange="syncAndCalc(this.value)">
+                                <option value="75">75</option>
+                                <option value="100" selected>100</option>
+                                <option value="125">125</option>
+                            </select>
+                        </div>
+                        <div class="calc-cell" id="cell-dist-h" onclick="focusInput('dist-input-h')">
+                            <span class="input-label-left">直線</span>
+                            <div id="dist-input-h" class="input-value" style="opacity: 0.3;">0</div>
+                        </div>
+                        <div class="calc-cell" id="cell-dist-a" onclick="focusInput('dist-input-a')">
+                            <span class="input-label-left">移動</span>
+                            <div id="dist-input-a" class="input-value" style="opacity: 0.3;">0</div>
+                        </div>
                     </div>
-                    <div class="calc-cell">
-                        <span class="input-label-left">サイズ</span>
-                        <select id="dist-select-size" class="input-value" onchange="syncAndCalc(this.value)">
-                            <option value="75">75</option>
-                            <option value="100" selected>100</option>
-                            <option value="125">125</option>
-                        </select>
-                    </div>
-                    <div class="calc-cell" id="cell-dist-h" onclick="focusInput('dist-input-h')">
-                        <span class="input-label-left">直線</span>
-                        <div id="dist-input-h" class="input-value" style="opacity: 0.3;">0</div>
-                    </div>
-                    <div class="calc-cell" id="cell-dist-a" onclick="focusInput('dist-input-a')">
-                        <span class="input-label-left">移動</span>
-                        <div id="dist-input-a" class="input-value" style="opacity: 0.3;">0</div>
+
+                    <!-- 距離計算用テンキー（隙間ゼロ・一体型） -->
+                    <div class="dist-keypad-container">
+                        <!-- 上段: AC / . / 00 / 0 / ⏎ / C -->
+                        <div class="dist-row-top">
+                            <button type="button" class="dist-btn key-control-gray" onclick="pressKey('clear')">AC</button>
+                            <button type="button" class="dist-btn font-bold" onclick="pressKey('.')">.</button>
+                            <button type="button" class="dist-btn" onclick="pressKey('00')">00</button>
+                            <button type="button" class="dist-btn" onclick="pressKey('0')">0</button>
+                            <button type="button" class="dist-btn key-enter-btn" id="dist-enter-btn-label" onclick="pressKey('enter')">⏎</button>
+                            <button type="button" class="dist-btn key-control-gray" id="delete-btn-label" onclick="pressKey('backspace')">C</button>
+                        </div>
+                        <!-- 下段: 1 〜 9 -->
+                        <div class="dist-row-bottom">
+                            <button type="button" class="dist-btn" onclick="pressKey('1')">1</button>
+                            <button type="button" class="dist-btn" onclick="pressKey('2')">2</button>
+                            <button type="button" class="dist-btn" onclick="pressKey('3')">3</button>
+                            <button type="button" class="dist-btn" onclick="pressKey('4')">4</button>
+                            <button type="button" class="dist-btn" onclick="pressKey('5')">5</button>
+                            <button type="button" class="dist-btn" onclick="pressKey('6')">6</button>
+                            <button type="button" class="dist-btn" onclick="pressKey('7')">7</button>
+                            <button type="button" class="dist-btn" onclick="pressKey('8')">8</button>
+                            <button type="button" class="dist-btn" onclick="pressKey('9')">9</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -505,35 +528,7 @@
                 </div>
             </div>
 
-            <!-- 距離計算用キーパッド（2行構成） -->
-            <div id="dist-keypad-wrap" class="hidden">
-                <div class="keypad-separator"></div>
-
-                <div class="dist-keypad-container">
-                    <!-- 上段（1行目）: [AC] [C] [0] [00] [.] [⏎] -->
-                    <div class="dist-row-top">
-                        <button class="key-btn key-accent-light" onclick="pressKey('clear')">AC</button>
-                        <button class="key-btn key-accent-light" id="delete-btn-label" onclick="pressKey('backspace')">C</button>
-                        <button class="key-btn" onclick="pressKey('0')">0</button>
-                        <button class="key-btn" onclick="pressKey('00')">00</button>
-                        <button class="key-btn" onclick="pressKey('.')">.</button>
-                        <button class="key-btn key-accent-light" id="dist-enter-btn-label" onclick="pressKey('enter')">⏎</button>
-                    </div>
-                    <!-- 下段（2行目）: [1] 〜 [9] -->
-                    <div class="dist-row-bottom">
-                        <button class="key-btn" onclick="pressKey('1')">1</button>
-                        <button class="key-btn" onclick="pressKey('2')">2</button>
-                        <button class="key-btn" onclick="pressKey('3')">3</button>
-                        <button class="key-btn" onclick="pressKey('4')">4</button>
-                        <button class="key-btn" onclick="pressKey('5')">5</button>
-                        <button class="key-btn" onclick="pressKey('6')">6</button>
-                        <button class="key-btn" onclick="pressKey('7')">7</button>
-                        <button class="key-btn" onclick="pressKey('8')">8</button>
-                        <button class="key-btn" onclick="pressKey('9')">9</button>
-                    </div>
-                </div>
-            </div>
-
+            <!-- 距離計算用図面 -->
             <div id="dist-diagram-wrapper" class="diagram-container hidden">
                 <svg viewBox="0 0 360 210" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                     <line x1="100" y1="10" x2="160" y2="10" stroke="white" stroke-width="2" />
@@ -558,6 +553,7 @@
                 </svg>
             </div>
 
+            <!-- 履歴エリア -->
             <div id="history-area" class="history-area">
                 <div class="history-header">
                     <span>履歴</span>
@@ -629,7 +625,7 @@
             val = '';
             isOverwriteMode = true;
         } else if (key === 'backspace') {
-            // 現在フォーカスされている入力欄をクリア
+            // 現在の入力欄をクリア
             val = '';
             isOverwriteMode = true;
         } else if (key === 'enter') {
@@ -670,8 +666,10 @@
     }
 
     function handleEnter() {
-        if (currentTab !== 'dist') saveHistory();
-        else {
+        if (currentTab !== 'dist') {
+            saveHistory();
+        } else {
+            // 直線 -> 移動 -> 足長 -> 直線 の順でフォーカス移動
             if (focusedInputId === 'dist-input-h') focusInput('dist-input-a');
             else if (focusedInputId === 'dist-input-a') focusInput('dist-input-b');
             else focusInput('dist-input-h');
@@ -710,10 +708,7 @@
         document.getElementById('history-area').classList.toggle('hidden', isDist);
         
         const elbowKeypadWrap = document.getElementById('elbow-keypad-wrap');
-        const distKeypadWrap = document.getElementById('dist-keypad-wrap');
-
         if (elbowKeypadWrap) elbowKeypadWrap.classList.toggle('hidden', isDist);
-        if (distKeypadWrap) distKeypadWrap.classList.toggle('hidden', !isDist);
 
         if (isDist) {
             focusInput('dist-input-h');
@@ -767,7 +762,6 @@
         const resEl = document.getElementById('dist-result-val');
         const diagRes = document.getElementById('dist-diagram-result');
         
-        // 直線または移動が未入力・無効値の場合の同期クリア処理
         if (isNaN(h) || isNaN(a)) { 
             resEl.innerText = "---"; 
             diagRes.textContent = "---";
@@ -920,7 +914,6 @@
 
 <script>
 (() => {
-  // Service Worker 登録
   if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
     window.addEventListener('load', () => {
       try {
@@ -947,7 +940,6 @@
     });
   }
 
-  // PWA インストールUI制御（重複を排除し1箇所に統合）
   const installBtn = document.getElementById('installBtn');
   const iosTip = document.getElementById('iosInstallTip');
   const closeIosTip = document.getElementById('closeIosTip');
