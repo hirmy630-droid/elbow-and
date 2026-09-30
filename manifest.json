@@ -1,8 +1,8 @@
 {
-  "id": "app-elbow-pwa-202609290755",
+  "id": "app-elbow-pwa-202609300203",
   "name": "エルボ計算",
   "short_name": "エルボ",
-  "start_url": "./index.html?v=202609290755",
+  "start_url": "./index.html?v=202609300203",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
